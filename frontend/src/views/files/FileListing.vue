@@ -1026,15 +1026,22 @@ const archiveFunc = () => {
   layoutStore.showHover({
     prompt: "archive",
     props: { defaultName: currentFolderName },
-    confirm: (result: { name: string, format: string, extension: string }) => {
-      layoutStore.closeHovers();
+    confirm: (result: { name: string; format: string; extension: string }) => {
+          layoutStore.closeHovers();
 
-      const filesToArchive = fileStore.selected.map(
-        (index) => fileStore.req!.items[index].url
-      );
+          const req = fileStore.req!;
+          const filesToArchive = fileStore.selected.map(
+            (index) => req.items[index].url
+          );
+          const finalFileName = `${result.name}.${result.extension}`;
+          const destinationPath = `${req.path}${finalFileName}`;
 
-      const finalFileName = `${result.name}.${result.extension}`;
-    },
+          api.archive(filesToArchive, destinationPath, result.format)
+            .then(() => {
+              fileStore.reload = true;
+            })
+            .catch($showError);
+        },
   });
 };
 

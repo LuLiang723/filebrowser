@@ -197,6 +197,25 @@ export function copy(items: any[], overwrite = false, rename = false) {
   return moveCopy(items, true, overwrite, rename);
 }
 
+export async function archive(items, destination, format) {
+
+  let url = `/api/archive${destination}`;
+  
+  const res = await fetchURL(url, {
+    method: "POST",
+    body: JSON.stringify({
+      items: items,
+      format: format,
+    }),
+  });
+
+  if (res.status !== 200) {
+    let err = new Error(res.statusText);
+    err.status = res.status;
+    throw err;
+  }
+}
+
 export async function checksum(url: string, algo: ChecksumAlg) {
   const data = await resourceAction(`${url}?checksum=${algo}`, "GET");
   return (await data.json()).checksums[algo];
