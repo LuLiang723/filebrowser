@@ -30,18 +30,21 @@
       <button
         class="button button--flat button--grey"
         @click="layoutStore.closeHovers"
+        :disabled="isLoading"
         :aria-label="t('buttons.cancel')"
         :title="t('buttons.cancel')"
       >
         {{ t('buttons.cancel') }}
       </button>
+
       <button
         class="button button--flat"
         @click="submit"
+        :disabled="isLoading"
         :aria-label="t('buttons.archive')"
         :title="t('buttons.archive')"
       >
-        {{ t('buttons.archive') }}
+        {{ isLoading ? t("processing") : t('buttons.archive') }}
       </button>
     </div>
   </div>
@@ -80,13 +83,23 @@ const formats = {
   tarzst: "tar.zst",
 };
 
-const submit = () => {
-  layoutStore.currentPrompt?.confirm({
-    name: archiveName.value,
-    format: selectedFormat.value,
-    extension: formats[selectedFormat.value as keyof typeof formats]
-  });
+const isLoading = ref(false);
+
+const submit = async () => {
+  isLoading.value = true; 
+  
+  try {
+    await layoutStore.currentPrompt.confirm({
+      name: archiveName.value,
+      format: selectedFormat.value,
+      extension: formats[selectedFormat.value as keyof typeof formats]
+    });
+  } finally {
+    isLoading.value = false;
+  }
 };
+
+
 </script>
 
 <style scoped>

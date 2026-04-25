@@ -1026,8 +1026,7 @@ const archiveFunc = () => {
   layoutStore.showHover({
     prompt: "archive",
     props: { defaultName: currentFolderName },
-    confirm: (result: { name: string; format: string; extension: string }) => {
-          layoutStore.closeHovers();
+    confirm: async (result: { name: string; format: string; extension: string }) => {
 
           const req = fileStore.req!;
           const filesToArchive = fileStore.selected.map(
@@ -1035,12 +1034,15 @@ const archiveFunc = () => {
           );
           const finalFileName = `${result.name}.${result.extension}`;
           const destinationPath = `${req.path}${finalFileName}`;
+          try {
+            await api.archive(filesToArchive, destinationPath, result.format);
+            layoutStore.closeHovers();
+            fileStore.reload = true;
+          } catch (e) {
+            console.error("Compress Failed: ", e);
+            layoutStore.closeHovers();
+          }
 
-          api.archive(filesToArchive, destinationPath, result.format)
-            .then(() => {
-              fileStore.reload = true;
-            })
-            .catch($showError);
         },
   });
 };

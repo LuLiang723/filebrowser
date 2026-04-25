@@ -128,6 +128,7 @@
     }
   },
   "permanent": "Permanent",
+  "processing": "Processing",
   "prompts": {
     "copy": "Copy",
     "copyMessage": "Choose the location to copy your files to:",
