@@ -25,6 +25,13 @@
             show="rename"
           />
           <action
+            v-if="headerButtons.archive"
+            id="archive-button"
+            icon="folder_zip" 
+            :label="t('buttons.archive')"
+            @action="archiveFunc"
+          />
+          <action
             v-if="headerButtons.copy"
             id="copy-button"
             icon="content_copy"
@@ -275,6 +282,12 @@
             show="rename"
           />
           <action
+            v-if="headerButtons.archive"
+            icon="folder_zip"
+            :label="t('buttons.archive')"
+            @action="archiveFunc"
+          />
+          <action
             v-if="headerButtons.copy"
             id="copy-button"
             icon="content_copy"
@@ -486,6 +499,7 @@ const headerButtons = computed(() => {
       authStore.user?.perm.download,
     move: fileStore.selectedCount > 0 && authStore.user?.perm.rename,
     copy: fileStore.selectedCount > 0 && authStore.user?.perm.create,
+    archive: fileStore.selectedCount > 0 && authStore.user?.perm.create,
   };
 });
 
