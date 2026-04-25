@@ -1016,6 +1016,28 @@ const download = () => {
   });
 };
 
+const archiveFunc = () => {
+  if (fileStore.req === null || fileStore.selectedCount === 0) return;
+
+  layoutStore.closeHovers();
+
+  const currentFolderName = fileStore.req.name || "archive";
+
+  layoutStore.showHover({
+    prompt: "archive",
+    props: { defaultName: currentFolderName },
+    confirm: (result: { name: string, format: string, extension: string }) => {
+      layoutStore.closeHovers();
+
+      const filesToArchive = fileStore.selected.map(
+        (index) => fileStore.req!.items[index].url
+      );
+
+      const finalFileName = `${result.name}.${result.extension}`;
+    },
+  });
+};
+
 const switchView = async () => {
   layoutStore.closeHovers();
 
