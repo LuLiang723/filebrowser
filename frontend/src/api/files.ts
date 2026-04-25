@@ -197,8 +197,7 @@ export function copy(items: any[], overwrite = false, rename = false) {
   return moveCopy(items, true, overwrite, rename);
 }
 
-export async function archive(items, destination, format) {
-
+export async function archive(items: string[], destination: string, format: string) {
   let url = `/api/archive${destination}`;
   
   const res = await fetchURL(url, {
@@ -211,7 +210,7 @@ export async function archive(items, destination, format) {
 
   if (res.status !== 200) {
     let err = new Error(res.statusText);
-    err.status = res.status;
+    (err as any).status = res.status;
     throw err;
   }
 }

@@ -89,7 +89,7 @@ const submit = async () => {
   isLoading.value = true; 
   
   try {
-    await layoutStore.currentPrompt.confirm({
+    await layoutStore.currentPrompt!.confirm({
       name: archiveName.value,
       format: selectedFormat.value,
       extension: formats[selectedFormat.value as keyof typeof formats]
