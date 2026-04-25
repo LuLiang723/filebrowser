@@ -1031,7 +1031,7 @@ const archiveFunc = () => {
 
           const req = fileStore.req!;
           const filesToArchive = fileStore.selected.map(
-            (index) => req.items[index].url
+            (index) => req.items[index].path
           );
           const finalFileName = `${result.name}.${result.extension}`;
           const destinationPath = `${req.path}${finalFileName}`;
