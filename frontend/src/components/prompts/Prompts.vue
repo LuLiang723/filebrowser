@@ -17,6 +17,7 @@ import Info from "./Info.vue";
 import Delete from "./Delete.vue";
 import DeleteUser from "./DeleteUser.vue";
 import Download from "./Download.vue";
+import Archive from "./Archive.vue";
 import Rename from "./Rename.vue";
 import Move from "./Move.vue";
 import Copy from "./Copy.vue";
@@ -39,6 +40,7 @@ const components = new Map<string, any>([
   ["help", Help],
   ["delete", Delete],
   ["rename", Rename],
+  ["archive", Archive],
   ["move", Move],
   ["copy", Copy],
   ["newFile", NewFile],
